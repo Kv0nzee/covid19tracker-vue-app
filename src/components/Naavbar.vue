@@ -1,15 +1,12 @@
 <template>
   <div id="nav" class="w-full">
       <div class="logo">
-          <img src="../assets/logo.png" alt="">
+          <router-link to="/" exact-active-class="no-active" > <img src="../assets/logo.png" alt=""></router-link>
       </div>
     <div class="link"> 
         <div class="flex mr-10 space-x-6 text-2xl">
             <router-link to="/" exact-active-class="no-active" ><h1>Covid19 Tracker<i class="fas fa-virus"></i></h1></router-link>
             <router-link to="/about" class="my-auto">About</router-link>
-        </div>
-        <div class="searchform">
-            <input type="text" placeholder="search country">
         </div>
     </div>
   </div>
@@ -52,15 +49,6 @@ export default {
     .link h1{
         font-size:2em;
         margin-right:25px;
-    }
-    .searchform{
-        width:200px;
-    }
-    .searchform input{
-        border:none;
-        background:transparent;
-        outline:none;
-        border-bottom:1px solid #ededed;   
     }
      @media (max-width:1020px) {
      .link h1{

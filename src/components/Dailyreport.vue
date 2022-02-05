@@ -1,8 +1,7 @@
 <template>
    <div class="totallist_container" v-if="datas">
-       <h1 class="title">Latest Total</h1>
        <div class="timeline">
-          Last Updated: {{datas.lastUpdate}}
+          Last Updated: {{datas.date}}
        </div>
        <div class="data animate__animated animate__fadeInUp">
            <number
@@ -10,7 +9,7 @@
 	:to="datas.confirmed"
 	:duration="3.5"
     easing="Power1.easeOut"/>
-           <p>Total Confirmed</p>
+           <p>Today Confirmed</p>
        </div>
         <div class="data animate__animated animate__fadeInUp">
            <number
@@ -18,7 +17,7 @@
 	:to="datas.recovered"
 	:duration="3.5"
     easing="Power1.easeOut"/>
-           <p>Total Recovered</p>
+           <p>Today Recovered</p>
        </div>
         <div class="data animate__animated animate__fadeInUp">
            <number
@@ -26,7 +25,7 @@
 	:to="datas.critical"
 	:duration="3.5"
     easing="Power1.easeOut"/>
-           <p>Total Critical</p>
+           <p>Today Critical</p>
        </div>
         <div class="data animate__animated animate__fadeInUp">
            <number
@@ -34,21 +33,21 @@
 	:to="datas.deaths"
 	:duration="3.5"
     easing="Power1.easeOut"/>
-           <p>Total Deaths</p>
+           <p>Today Deaths</p>
        </div>
     </div>
-    <Loader v-else></Loader>
+    <div v-else>
+       <button @click.prevent="result">View Daily Report </button>
+    </div>
 </template>
 
 <script>    
-import Loader from './Loader'
 import {ref} from 'vue'
 export default {
-  components: { Loader },
     setup(){
         const datas = ref();
         const result = async () => {
-           fetch("https://covid-19-data.p.rapidapi.com/totals?format=json", {
+           fetch("https://covid-19-data.p.rapidapi.com/report/totals?date=2020-07-21", {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-key": "f3b9d18db7msh8955b2c2a4dd921p174dafjsn4c0d9396da90",
@@ -65,8 +64,7 @@ export default {
                 console.error(err);
             });
         }
-        result();
-        return { datas }
+        return { datas, result }
 
     }
 }
@@ -76,8 +74,7 @@ export default {
     .totallist_container{
     width: 100%;
     height: 500px;
-    padding: 20px;
-    background: #3d3d3d;
+    background: #272727;
     display: flex;
     align-items: center;
     text-align: center;
@@ -85,16 +82,9 @@ export default {
     position: relative;
     color: rgb(255, 255, 255);
   }
-  .title{
-    position: absolute;
-      top: 0;
-      left:30px;
-      font-size:1em;
-      color: #ededed;
-  }
   .timeline{
       position: absolute;
-      top: 10px;
+      top: 30px;
       right:30px;
       font-size:1em;
       color: #ededed;
@@ -108,6 +98,13 @@ export default {
  .data p{
      font-size:2em;
  }
+ button{
+     width:100%;
+     background-color:#035D71;
+     color: #fff;
+     outline: none;
+     border: 1px solid rgb(46, 71, 75);
+ }
  @media (max-width:1020px) {
      .totallist_container{
          flex-direction: column;
@@ -117,9 +114,5 @@ export default {
      .totallist_container .data span{
          font-size: 3em;
      }
-     .timeline{
-      display: none;
-      color:transparent;
-    }
  }
 </style>
